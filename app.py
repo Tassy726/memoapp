@@ -17,14 +17,13 @@ def create_app():
     with app.app_context():
         db.create_all()
 
+    # 一覧
     @app.route("/")
     def index():
         memos = Memo.query.order_by(Memo.updated_at.desc()).all()
         return render_template("index.html", memos=memos)
 
-    # ----------------------
-    # 新規メモ作成
-    # ----------------------
+    # 作成
     @app.route("/new", methods=["GET", "POST"])
     def new_memo():
         if request.method == "POST":
@@ -42,6 +41,43 @@ def create_app():
             return redirect(url_for("index"))
 
         return render_template("new.html")
+
+    # 詳細
+    @app.route("/memo/<int:memo_id>")
+    def show_memo(memo_id):
+        memo = Memo.query.get_or_404(memo_id)
+        return render_template("show.html", memo=memo)
+
+    # 編集
+    @app.route("/memo/<int:memo_id>/edit", methods=["GET", "POST"])
+    def edit_memo(memo_id):
+        memo = Memo.query.get_or_404(memo_id)
+
+        if request.method == "POST":
+            title = (request.form.get("title") or "").strip()
+            body = (request.form.get("body") or "").strip()
+
+            if not title or not body:
+                flash("タイトルと本文は必須です。", "error")
+                return render_template("edit.html", memo=memo, title=title, body=body)
+
+            memo.title = title
+            memo.body = body
+            db.session.commit()
+            flash("メモを更新しました。", "success")
+            return redirect(url_for("show_memo", memo_id=memo.id))
+
+        # GET
+        return render_template("edit.html", memo=memo, title=memo.title, body=memo.body)
+
+    # 削除（POST専用）
+    @app.route("/memo/<int:memo_id>/delete", methods=["POST"])
+    def delete_memo(memo_id):
+        memo = Memo.query.get_or_404(memo_id)
+        db.session.delete(memo)
+        db.session.commit()
+        flash("メモを削除しました。", "success")
+        return redirect(url_for("index"))
 
     return app
 

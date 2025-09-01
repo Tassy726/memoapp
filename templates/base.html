@@ -10,9 +10,21 @@
   <header class="site-header">
     <h1>Simple Memo</h1>
   </header>
+
   <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash">
+          {% for cat, msg in messages %}
+            <li class="{{ cat }}">{{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
     {% block content %}{% endblock %}
   </main>
+
   <footer class="site-footer">
     <small>&copy; Switch On Lab</small>
   </footer>

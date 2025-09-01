@@ -25,5 +25,26 @@ input[type="text"], textarea {
 .flash li { padding: 8px 12px; border-radius: 4px; margin: 8px 0; }
 .flash li.error { background: #ffe1e1; }
 .flash li.success { background: #e7ffe7; }
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.actions form { display: inline; }
+
+.btn { display: inline-block; padding: 8px 16px; background: #0078d7; color: #fff; text-decoration: none; border-radius: 4px; border: none; cursor: pointer; }
+.btn:hover { background: #005a9e; }
+.btn.ghost { background: #eee; color: #333; }
+.btn.danger { background: #d83b01; }
+.btn.danger:hover { background: #a53103; }
+
+.memo-body { white-space: normal; line-height: 1.7; }
+.flash { list-style: none; padding-left: 0; }
+.flash li { padding: 8px 12px; border-radius: 4px; margin: 8px 0; }
+.flash li.error { background: #ffe1e1; }
+.flash li.success { background: #e7ffe7; }
+
 
 

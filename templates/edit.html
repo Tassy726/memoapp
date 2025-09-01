@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>メモを編集</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flash">
+        {% for cat, msg in messages %}
+          <li class="{{ cat }}">{{ msg }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form method="post">
+    <label for="title">タイトル</label>
+    <input type="text" id="title" name="title" value="{{ title or '' }}" required>
+
+    <label for="body">本文</label>
+    <textarea id="body" name="body" rows="10" required>{{ body or '' }}</textarea>
+
+    <button type="submit" class="btn">更新する</button>
+    <a href="{{ url_for('show_memo', memo_id=memo.id) }}" class="btn ghost">キャンセル</a>
+  </form>
+{% endblock %}
