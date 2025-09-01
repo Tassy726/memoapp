@@ -15,3 +15,15 @@ body { font-family: system-ui, sans-serif; margin: 0; }
   background: #005a9e;
 }
 
+form { max-width: 720px; margin: 16px 0; display: grid; gap: 12px; }
+label { font-weight: 600; }
+input[type="text"], textarea {
+  width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;
+}
+.btn.ghost { background: #eee; color: #333; }
+.flash { list-style: none; padding-left: 0; }
+.flash li { padding: 8px 12px; border-radius: 4px; margin: 8px 0; }
+.flash li.error { background: #ffe1e1; }
+.flash li.success { background: #e7ffe7; }
+
+
