@@ -7,9 +7,18 @@ def create_app():
     app = Flask(__name__)
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev-secret")
 
-    # SQLite（開発用）
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///memo.db"
+    # ---- DB設定（Render では DATABASE_URL を使用、なければ SQLite）----
+    database_url = os.getenv("DATABASE_URL")  # 例: postgresql://user:pass@host:5432/dbname
+    if database_url:
+        # 万一 'postgres://' で来た場合は 'postgresql://' に置換（互換対応）
+        if database_url.startswith("postgres://"):
+            database_url = database_url.replace("postgres://", "postgresql://", 1)
+        app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+    else:
+        app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///memo.db"
+
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    # ---------------------------------------------------------------
 
     db.init_app(app)
 
